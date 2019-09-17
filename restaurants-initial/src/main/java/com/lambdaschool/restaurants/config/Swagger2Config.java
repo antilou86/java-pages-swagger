@@ -2,6 +2,7 @@ package com.lambdaschool.restaurants.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -22,8 +23,11 @@ public class Swagger2Config
                 .select()
                 .apis(RequestHandlerSelectors
                         .basePackage("com.lambdaschool.restaurants"))
-                .paths(PathSelectors.regex("/.*"))
-                .build().apiInfo(apiEndPointsInfo());
+                .paths(PathSelectors.any())
+                //                .paths(PathSelectors.regex("/**"))
+                .useDefaultResponseMessages(false) // Allows only my exception responses
+                .ignoredParameterTypes(Pageable.class) // allows only my paging parameter list
+                .apiInfo(apiEndPointsInfo());
     }
 
     private ApiInfo apiEndPointsInfo()
